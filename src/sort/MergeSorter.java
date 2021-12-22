@@ -1,6 +1,5 @@
 package sort;
 
-
 public class MergeSorter<T> implements Sorter<T> {
     private Comparable<T>[] clonedSequences;
 
@@ -27,27 +26,26 @@ public class MergeSorter<T> implements Sorter<T> {
         var sequences1Index = low;
         var sequences2Index = mid + 1;
 
-        copyToDestFromSrc(clonedSequences, sequences);
+        copyToDestFromSrc(clonedSequences, sequences, low, high - low + 1);
 
         for (int i = low; i <= high; i++) {
             if (sequences1Index > mid) {
-
                 sequences[i] = clonedSequences[sequences2Index++];
+
             } else if (sequences2Index > high) {
-
                 sequences[i] = clonedSequences[sequences1Index++];
+
             } else if (Sorter.less(clonedSequences[sequences1Index], clonedSequences[sequences2Index])) {
-
                 sequences[i] = clonedSequences[sequences1Index++];
-            } else {
 
+            } else {
                 sequences[i] = clonedSequences[sequences2Index++];
             }
         }
     }
 
-    private void copyToDestFromSrc(Comparable<T>[] destSequences, Comparable<T>[] srcSequences) {
+    private void copyToDestFromSrc(Comparable<T>[] destSequences, Comparable<T>[] srcSequences, int start, int length) {
         // 这里不做任何的处理判断，因为数据在这个类中由自己提供
-        System.arraycopy(srcSequences, 0, destSequences, 0, srcSequences.length);
+        System.arraycopy(srcSequences, start, destSequences, start, length);
     }
 }
