@@ -10,8 +10,8 @@ public class LinkedStack extends AbstractStack {
 
         Node(Object value, Node prev, Node next) {
             this.value = value;
-            this.prev = null;
-            this.next = null;
+            this.prev = prev;
+            this.next = next;
         }
     }
 
