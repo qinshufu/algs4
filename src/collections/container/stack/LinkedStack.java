@@ -1,8 +1,8 @@
 package collections.container.stack;
 
-import collections.container.AbstractContainer;
+import java.util.Iterator;
 
-public class LinkedStack extends AbstractContainer implements Stack {
+public class LinkedStack extends AbstractStack {
     private static final class Node {
         Object value;
         Node prev;
@@ -78,6 +78,30 @@ public class LinkedStack extends AbstractContainer implements Stack {
     @Override
     public int size() {
         return listsize;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new Iterator() {
+            private Node node = linkedlist;
+            private final ModificationChecker modChecker = new ModificationChecker();
+
+            @Override
+            public boolean hasNext() {
+                return node.next != null;
+            }
+
+            @Override
+            public Object next() {
+                if (hasNext()) {
+                    var value = node.value;
+                    node = node.next;
+                    return value;
+                }
+
+                return null;
+            }
+        };
     }
 
     private void checkNull(Object value) {

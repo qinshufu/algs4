@@ -1,8 +1,8 @@
 package collections.container.stack;
 
-import collections.container.AbstractContainer;
+import java.util.Iterator;
 
-public class ArrayStack extends AbstractContainer implements Stack {
+public class ArrayStack extends AbstractStack {
     private final Object[] items;
     private int itemsCount;
     private final static int DEFAULT_CAPCITY = 100;
@@ -61,4 +61,28 @@ public class ArrayStack extends AbstractContainer implements Stack {
             throw new IllegalArgumentException("Error: Argument is null.");
         }
     }
+
+    @Override
+    public Iterator iterator() {
+        return new Iterator() {
+            private int index;
+            private final ModificationChecker modChecker = new ModificationChecker();
+
+            @Override
+            public boolean hasNext() {
+                modChecker.check();
+                return index < itemsCount;
+            }
+
+            @Override
+            public Object next() {
+                if (hasNext()) {
+                    return items[index++];
+                }
+
+                return null;
+            }
+        };
+    }
+
 }
