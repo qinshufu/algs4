@@ -6,22 +6,22 @@ import java.util.Iterator;
 
 public class ArrayTiny extends AbstractTiny {
 
-    private final static int DEFAULT_CAPCITY = 100;
+    private static final int DEFAULT_CAPACITY = 100;
     private final Object[] items;
     private int listsize;
 
-    ArrayTiny() {
-        items = new Object[DEFAULT_CAPCITY];
+    public ArrayTiny() {
+        items = new Object[DEFAULT_CAPACITY];
     }
 
-    ArrayTiny(int initCapcity) {
-        items = new Object[initCapcity];
+    public ArrayTiny(int capacity) {
+        items = new Object[capacity];
     }
 
     @Override
     public boolean add(Object obj) {
-        if (listsize + 1 >= items.length) {
-            return false;
+        if (listsize >= items.length) {
+            throw new IllegalStateException("Error: List is full.");
         }
 
         items[listsize++] = obj;
@@ -31,8 +31,8 @@ public class ArrayTiny extends AbstractTiny {
 
     @Override
     public Object removeLast() {
-        if (listsize < 1) {
-            return null;
+        if (listsize == 0) {
+            throw new IllegalStateException("Error: List is empty.");
         }
 
         var removedValue = items[--listsize];
@@ -75,6 +75,7 @@ public class ArrayTiny extends AbstractTiny {
 
             @Override
             public Iterator iterator() {
+                modChecker.check();
                 return ArrayTiny.this.iterator();
             }
 

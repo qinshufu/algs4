@@ -19,11 +19,11 @@ public class LinkedTiny extends AbstractTiny {
     private OneWayNode linkedlist;
     private int listsize;
 
-    LinkedTiny() {
+    public LinkedTiny() {
         // pass
     }
 
-    LinkedTiny(Iterator items) {
+    public LinkedTiny(Iterator items) {
         while (items.hasNext()) {
             add(items.next());
         }
@@ -49,7 +49,7 @@ public class LinkedTiny extends AbstractTiny {
     @Override
     public Object removeLast() {
         if (size() == 0) {
-            return null;
+            throw new IllegalStateException("Error: List is empty.");
         }
 
         Object removedValue = null;
@@ -66,14 +66,14 @@ public class LinkedTiny extends AbstractTiny {
             removedValue = prevLastNode.next.value;
         }
 
-        listsize++;
+        listsize--;
         modCount++;
         return removedValue;
     }
 
     @Override
     public int size() {
-        return 0;
+        return listsize;
     }
 
     @Override
@@ -108,6 +108,7 @@ public class LinkedTiny extends AbstractTiny {
 
             @Override
             public Iterator iterator() {
+                modChecker.check();
                 return LinkedTiny.this.iterator();
             }
 
