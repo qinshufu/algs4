@@ -5,13 +5,13 @@ import java.util.Iterator;
 public class ArrayStack extends AbstractStack {
     private final Object[] items;
     private int itemsCount;
-    private final static int DEFAULT_CAPCITY = 100;
+    private static final int DEFAULT_CAPCITY = 100;
 
     ArrayStack() {
         this(DEFAULT_CAPCITY);
     }
 
-    ArrayStack(int initCapcity) {
+    public ArrayStack(int initCapcity) {
         items = new Object[initCapcity];
     }
 
@@ -19,7 +19,7 @@ public class ArrayStack extends AbstractStack {
     public void push(Object item) {
         checkValue(item);
         if (isFull()) {
-            throw new IllegalArgumentException("Error: Stack is full.");
+            throw new IllegalStateException("Error: Stack is full.");
         }
 
         items[itemsCount++] = item;
@@ -53,7 +53,7 @@ public class ArrayStack extends AbstractStack {
 
     @Override
     public int size() {
-        return 0;
+        return itemsCount;
     }
 
     private void checkValue(Object value) {
